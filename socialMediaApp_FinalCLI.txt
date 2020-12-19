@@ -1,0 +1,152 @@
+Microsoft Windows [Version 10.0.19041.685]
+(c) 2020 Microsoft Corporation. All rights reserved.
+
+C:\Users\Leo>cd C:\Users\Leo\Desktop\Back End Coding Bootcamp\MySQL\Week 3
+
+C:\Users\Leo\Desktop\Back End Coding Bootcamp\MySQL\Week 3>mysql -u root -p < socialmediaapp3.sql
+Enter password: ***************
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+
+C:\Users\Leo\Desktop\Back End Coding Bootcamp\MySQL\Week 3>mysql -u root -p < socialmediaapp3.sql
+Enter password: ****************
+ERROR 1064 (42000) at line 20: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'not null TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        prima' at line 6
+
+C:\Users\Leo\Desktop\Back End Coding Bootcamp\MySQL\Week 3>mysql -u root -p
+Enter password: ****************
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 44
+Server version: 8.0.22 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> select sysdate();
++---------------------+
+| sysdate()           |
++---------------------+
+| 2020-12-19 13:35:18 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> source socialmediaapp3.sql
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.04 sec)
+
+Query OK, 0 rows affected (0.07 sec)
+
+Query OK, 0 rows affected (0.05 sec)
+
+Query OK, 0 rows affected, 1 warning (0.11 sec)
+
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+mysql> source socialmediaapp3.sql
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+Database changed
+Query OK, 0 rows affected (0.09 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.07 sec)
+
+Query OK, 0 rows affected (0.08 sec)
+
+Query OK, 0 rows affected, 1 warning (0.14 sec)
+
+Query OK, 0 rows affected, 2 warnings (0.17 sec)
+
+mysql> show socialmediaapp
+    -> ^C
+mysql> show socialmediaapp;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'socialmediaapp' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| employees          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| socialmediaapp     |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.02 sec)
+
+mysql> show socialmediaapp
+    -> ^C
+mysql> use socialmediaapp;
+Database changed
+mysql> show tables;
++--------------------------+
+| Tables_in_socialmediaapp |
++--------------------------+
+| comment                  |
+| post                     |
+| user                     |
++--------------------------+
+3 rows in set (0.01 sec)
+
+mysql> desc comment;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| comment_id | int          | NO   | PRI | NULL    | auto_increment |
+| post_id    | int          | NO   | MUL | NULL    |                |
+| user_id    | varchar(20)  | YES  | MUL | NULL    |                |
+| content    | varchar(255) | YES  |     | NULL    |                |
+| timestamp  | datetime     | YES  |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+5 rows in set (0.01 sec)
+
+mysql> insert into comment(comment_id, post_id, timestamp)
+    -> values(1, 1, sysdate);
+ERROR 1054 (42S22): Unknown column 'sysdate' in 'field list'
+mysql> insert into comment(comment_id, post_id, timestamp)
+    -> values(1, 1, now());
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`socialmediaapp`.`comment`, CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`))
+mysql> insert into user values('1', 'email@email.com', '12345';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> insert into user values("1", "email@email.com", "12345");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into post values(1, '1', 'Hi', now());
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from post;
++---------+---------+---------+---------------------+
+| post_id | user_id | content | timestamp           |
++---------+---------+---------+---------------------+
+|       1 | 1       | Hi      | 2020-12-19 13:52:24 |
++---------+---------+---------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> insert into comment (post_id, user_id, content, timestamp) values(1, '1', 'Nice', now();)
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+    -> insert into comment (post_id, user_id, content, timestamp) values(1, '1', 'Nice', now());
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+insert into comment (post_id, user_id, content, timestamp) values(1, '1', 'Nic' at line 1
+mysql> insert into comment (post_id, user_id, content, timestamp)
+    -> values(1, '1', 'Nice', now());
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from comment;
++------------+---------+---------+---------+---------------------+
+| comment_id | post_id | user_id | content | timestamp           |
++------------+---------+---------+---------+---------------------+
+|          1 |       1 | 1       | Nice    | 2020-12-19 13:57:47 |
++------------+---------+---------+---------+---------------------+
+1 row in set (0.00 sec)
+
+mysql>
